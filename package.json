@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+        "start": "docker compose -f docker-compose.yml up --build",
+        "migrate": "docker compose -f docker-compose.yml run --rm backend alembic upgrade head",
+        "migrate:undo": "docker compose -f docker-compose.yml run --rm backend alembic downgrade -1"
+    }
+}

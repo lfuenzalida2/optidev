@@ -1,0 +1,12 @@
+# Detecta el pedido de actualización que crea la app (POST /api/system/update)
+# y lanza optidev-update.service. Ver README.md ("Actualización desde la app").
+[Unit]
+Description=Optidev: pedidos de actualización desde la app
+
+[Path]
+# Debe coincidir con UPDATE_REQUEST_DIR del backend (default: data/update).
+PathExists=/root/work/optidev/services/backend/data/update/request
+Unit=optidev-update.service
+
+[Install]
+WantedBy=multi-user.target

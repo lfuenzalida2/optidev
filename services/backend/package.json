@@ -1,0 +1,11 @@
+{
+  "name": "optidev-backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python main.py --reload",
+    "start": "python main.py",
+    "migrate": "alembic upgrade head",
+    "test": "pytest -q"
+  }
+}

@@ -1,0 +1,17 @@
+# Unidad del backend tal como corre en el servidor (root, /root/work/optidev).
+# El update la reinicia. Ver README.md ("Actualización desde la app").
+[Unit]
+Description=Optidev backend (FastAPI + MCP)
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root/work/optidev/services/backend
+EnvironmentFile=/root/work/optidev/services/backend/.env
+# Un solo proceso: SQLite admite un único escritor y el session manager del MCP vive en memoria.
+ExecStartPre=/root/work/optidev/services/backend/.venv/bin/alembic upgrade head
+ExecStart=/root/work/optidev/services/backend/.venv/bin/uvicorn src.app:app --host 127.0.0.1 --port ${BACKEND_PORT} --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

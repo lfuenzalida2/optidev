@@ -1,0 +1,13 @@
+# Lint del backend. Reglas fijadas a propósito (no el conjunto por defecto de la versión de ruff): errores de
+# sintaxis y de pycodestyle sin estilo (E4, E7, E9) y pyflakes (F: imports y variables sin usar, nombres sin definir).
+# El formato no se revisa. Para sumar reglas, agregarlas acá y corregir lo que aparezca en el mismo PR.
+[lint]
+select = ["E4", "E7", "E9", "F"]
+
+[lint.per-file-ignores]
+# Las fixtures de pytest se importan de otro módulo y se reciben como parámetro: ruff lo lee como redefinición.
+"tests/**" = ["F811"]
+# conftest.py fija las variables de entorno antes de importar la app.
+"tests/conftest.py" = ["E402"]
+# main.py carga el .env antes de importar el resto.
+"main.py" = ["E402"]

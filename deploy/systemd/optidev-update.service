@@ -1,0 +1,28 @@
+# Actualiza optidev desde master (deploy/update.sh). Corre como root; lo
+# dispara optidev-update.path. No se habilita: solo se activa por la .path.
+# Ver README.md ("Actualización desde la app").
+[Unit]
+Description=Optidev: actualización desde master
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# El script valida que él mismo y el repo sean de root y no los pueda
+# modificar otro usuario; si no, aborta sin hacer nada.
+ExecStart=/root/work/optidev/deploy/update.sh
+Environment=APP_USER=root
+Environment=SERVICE=optidev-backend
+Environment=WEB_ROOT=/var/www/optidev
+Environment=STATE_DIR=/var/lib/optidev-update
+# /var/lib/optidev-update: estado y log (root, legible por el backend).
+StateDirectory=optidev-update
+StateDirectoryMode=0755
+UMask=0022
+TimeoutStartSec=20min
+PrivateTmp=yes
+ProtectSystem=full
+# ProtectSystem=full deja /etc de solo lectura; el script mantiene el sitio de
+# nginx igual a deploy/nginx/optidev.conf.
+ReadWritePaths=/etc/nginx/sites-available
+NoNewPrivileges=yes
